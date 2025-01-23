@@ -1,25 +1,16 @@
 using UnityEngine;
 
-public class RoomLevel : MonoBehaviour
+public class Dragon : MonoBehaviour
 {
-    public Room room1;
-    public Room room2;
-    public Room room3;
-
-    public GameObject walls;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
     }
 
-    public void HideWalls()
+    public void ThrowFire()
     {
-        if (walls != null)
-        {
-            walls.SetActive(false);
-        }
+
     }
 
     // Update is called once per frame
