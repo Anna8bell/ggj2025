@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
     public RoomLevel nextLevel;
 
     public Dragon dragon;
+    public GameObject fireWall;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
