@@ -9,6 +9,8 @@ public class Room : MonoBehaviour
     public GameObject itemSlot2;
 
     public GameObject exit;
+    public Room left = null;
+    public Room right = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

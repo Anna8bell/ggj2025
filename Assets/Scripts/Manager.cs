@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Manager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class Manager : MonoBehaviour
 
     public Dragon dragon;
     public GameObject fireWall;
+    public List<Char> enemies = new List<Char>();
+
+    public Camera camera;
 
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,12 +24,62 @@ public class Manager : MonoBehaviour
         nextLevel = levelBuilder.GenerateLevel();
 
         hero.gameObject.transform.position = currentLevel.room1.mainSlot.transform.position;
+        hero.currentRoom = currentLevel.room1;
+
         dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Keyboard.current.dKey.wasPressedThisFrame)
+        {
+            if (hero.CanGoRight())
+            {
+                hero.MoveToSideRoom(hero.currentRoom.right);
+            }
+        }
+        if (Keyboard.current.aKey.wasPressedThisFrame)
+        {
+            if (hero.CanGoLeft())
+            {
+                hero.MoveToSideRoom(hero.currentRoom.left);
+            }
+        }
+        if (Keyboard.current.sKey.wasPressedThisFrame)
+        {
+            if (hero.currentRoom == currentLevel.room1)
+            {
+                hero.MoveDown(nextLevel.room1);
+            }
+            if (hero.currentRoom == currentLevel.room2)
+            {
+                hero.MoveDown(nextLevel.room2);
+            }
+            if (hero.currentRoom == currentLevel.room3)
+            {
+                hero.MoveDown(nextLevel.room3);
+            }
+
+            SwitchLevel();
+        }
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            var enemy = hero.CanFight(enemies);
+            if (enemy != null)
+            {
+                hero.Fight(enemy);
+            }
+        }
     }
+
+    private void SwitchLevel()
+    {
+        currentLevel = nextLevel;
+        nextLevel = levelBuilder.GenerateLevel();
+
+        camera.transform.position = new Vector3(camera.transform.position.x, currentLevel.transform.position.y -6, camera.transform.position.z) ;
+    }
+
 }

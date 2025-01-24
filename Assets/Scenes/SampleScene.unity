@@ -2939,6 +2939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daac3f88af737947be5e06b1507f3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentRoom: {fileID: 0}
 --- !u!1 &1875460158
 GameObject:
   m_ObjectHideFlags: 0
@@ -3148,6 +3149,8 @@ MonoBehaviour:
   nextLevel: {fileID: 0}
   dragon: {fileID: 1342323352}
   fireWall: {fileID: 1967202543}
+  enemies: []
+  camera: {fileID: 519420031}
 --- !u!4 &1950809309
 Transform:
   m_ObjectHideFlags: 0
@@ -3550,7 +3553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444648053467652941, guid: fb9e2854502db454fb6e89a08c67d2f9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
