@@ -14,6 +14,8 @@ public class Room : MonoBehaviour
     public GameObject exit;
     public Room left = null;
     public Room right = null;
+    public Door leftDoor = null;
+    public Door rightDoor = null;
 
     public GameObject itemSelection;
     public ItemSlot selectedItemSlot = null;

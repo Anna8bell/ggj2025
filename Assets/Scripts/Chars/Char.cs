@@ -9,6 +9,7 @@ public class Char : MonoBehaviour
     public Constants constants;
 
     private MoveController moveController;
+    private Manager manager;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,6 +17,7 @@ public class Char : MonoBehaviour
         var managerObject = GameObject.FindGameObjectWithTag("Manager");
         moveController = managerObject.GetComponent<MoveController>();
         constants = managerObject.GetComponent<Constants>();
+        manager = managerObject.GetComponent<Manager>();
     }
 
     // Update is called once per frame
@@ -42,12 +44,51 @@ public class Char : MonoBehaviour
 
     public bool CanGoRight()
     {
-        return currentRoom.right != null;
+        if (currentRoom.right == null) return false;
+
+        var door = currentRoom.rightDoor;
+
+        if (!door.gameObject.activeSelf) return true;
+
+
+        if (door.isOpened)
+        {
+            return true;
+        }
+        else
+        {
+            if (manager.keys > 0)
+            {
+                manager.MinusKey();
+                door.isOpened = true;
+            }
+            return false;
+        }
     }
 
     public bool CanGoLeft()
     {
-        return currentRoom.left != null;
+        // return currentRoom.left != null;
+        if (currentRoom.left == null) return false;
+
+        var door = currentRoom.leftDoor;
+
+        if (!door.gameObject.activeSelf) return true;
+
+
+        if (door.isOpened)
+        {
+            return true;
+        }
+        else
+        {
+            if (manager.keys > 0)
+            {
+                manager.MinusKey();
+                door.isOpened = true;
+            }
+            return false;
+        }
     }
 
     public Char CanFight(List<Char> enemies)

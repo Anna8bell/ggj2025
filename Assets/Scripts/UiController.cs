@@ -7,11 +7,14 @@ public class UiController : MonoBehaviour
     public GameObject menu;
     public GameObject gameplay;
     public TMP_Text coinsText;
+    public TMP_Text keysText;
+
+    public Manager manager;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        manager = GetComponent<Manager>();
     }
 
     // Update is called once per frame
@@ -30,10 +33,17 @@ public class UiController : MonoBehaviour
     {
         menu.SetActive(false);
         gameplay.SetActive(true);
+        SetCoinsText(manager.coins);
+        SetKeysText(manager.keys);
     }
 
     public void SetCoinsText(int coins)
     {
         coinsText.text = coins + "";
+    }
+
+    public void SetKeysText(int keys)
+    {
+        keysText.text = keys + "";
     }
 }

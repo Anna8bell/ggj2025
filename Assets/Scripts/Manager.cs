@@ -21,6 +21,7 @@ public class Manager : MonoBehaviour
     public Camera camera;
 
     public int coins = 0;
+    public int keys = 1; // TODO set 0
 
     public CoinItem coinItem1;
     public CoinItem coinItem2;
@@ -130,6 +131,16 @@ public class Manager : MonoBehaviour
     {
         hero.currentRoom.selectedItemSlot.item = null;
         hero.currentRoom.DefaultItemSelection();
+    }
+
+    public void MinusKey()
+    {
+        if (keys > 0)
+        {
+            keys--;
+            uiController.SetKeysText(keys);
+        }
+
     }
 
     private IEnumerator MoveCameraCoroutine(Vector3 position)

@@ -7,6 +7,8 @@ public class RoomLevel : MonoBehaviour
     public Room room3;
 
     public GameObject walls;
+    public Door door1;
+    public Door door2;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +21,16 @@ public class RoomLevel : MonoBehaviour
         if (walls != null)
         {
             walls.SetActive(false);
+        }
+
+        if (door1 != null)
+        {
+            door1.gameObject.SetActive(false);
+        }
+
+        if (door2 != null)
+        {
+            door2.gameObject.SetActive(false);
         }
     }
 
