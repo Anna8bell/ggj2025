@@ -64,7 +64,7 @@ public class Char : MonoBehaviour
 
     private IEnumerator MoveCoroutine(Room room)
     {
-        print("MoveCoroutine started");
+       // print("MoveCoroutine started");
 
         float time = 0;
         var target = room.mainSlot.transform.position;
@@ -87,13 +87,13 @@ public class Char : MonoBehaviour
         }
 
         moveController.tasks.Remove(gameObject);
-        print("MoveCoroutine stopped");
+       // print("MoveCoroutine stopped");
 
     }
 
     private IEnumerator MoveDownCoroutine(Room room)
     {
-        print("MoveDownCoroutine started");
+        //print("MoveDownCoroutine started");
 
         float time = 0;
         var target = room.mainSlot.transform.position;
@@ -116,7 +116,7 @@ public class Char : MonoBehaviour
         }
 
         moveController.tasks.Remove(gameObject);
-        print("MoveDownCoroutine stopped");
+        //print("MoveDownCoroutine stopped");
 
     }
 

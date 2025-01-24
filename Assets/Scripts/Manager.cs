@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,6 +8,7 @@ public class Manager : MonoBehaviour
     public Char hero;
     private LevelBuilder levelBuilder;
     private MoveController moveController;
+    private Constants constants;
 
     public RoomLevel currentLevel;
     public RoomLevel nextLevel;
@@ -23,6 +25,7 @@ public class Manager : MonoBehaviour
     {
         levelBuilder = GetComponent<LevelBuilder>();
         moveController = GetComponent<MoveController>();
+        constants = GetComponent<Constants>();
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel();
 
@@ -85,7 +88,38 @@ public class Manager : MonoBehaviour
         currentLevel = nextLevel;
         nextLevel = levelBuilder.GenerateLevel();
 
-        camera.transform.position = new Vector3(camera.transform.position.x, currentLevel.transform.position.y -6, camera.transform.position.z) ;
+        StartCoroutine(MoveCameraCoroutine(new Vector3(camera.transform.position.x, currentLevel.transform.position.y - 6, camera.transform.position.z)));
+    }
+
+    private IEnumerator MoveCameraCoroutine(Vector3 position)
+    {
+        //print("MoveCameraCoroutine started");
+
+        float time = 0;
+        var target = position;
+        var done = false;
+        
+
+        while (!done)
+        {
+            float delta = constants.moveCurve.Evaluate(time / constants.moveCameraTime);
+            camera.transform.position = Vector3.MoveTowards(camera.transform.position, target, delta * constants.moveCameraSpeed);
+
+            if ((camera.transform.position - target).magnitude <= 0.05f)
+            {
+                camera.transform.position = position;
+                done = true;
+            }
+
+            time = Mathf.Min(constants.moveCameraTime, time + Time.deltaTime);
+
+
+            yield return null;
+        }
+
+        
+       // print("MoveCameraCoroutine stopped");
+
     }
 
 }

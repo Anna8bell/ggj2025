@@ -8,6 +8,9 @@ public class Constants : MonoBehaviour
 
     public float moveDownTime = 1;
     public float moveDownSpeed = 7;
+
+    public float moveCameraTime = 1;
+    public float moveCameraSpeed = 7;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

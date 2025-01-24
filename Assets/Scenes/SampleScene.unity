@@ -3899,6 +3899,8 @@ MonoBehaviour:
   moveSpeed: 7
   moveDownTime: 1
   moveDownSpeed: 7
+  moveCameraTime: 1
+  moveCameraSpeed: 7
 --- !u!114 &1950809312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4694,10 +4696,6 @@ PrefabInstance:
     - target: {fileID: 2444648053467652941, guid: fb9e2854502db454fb6e89a08c67d2f9, type: 3}
       propertyPath: m_Name
       value: RoomLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2444648053467652941, guid: fb9e2854502db454fb6e89a08c67d2f9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
