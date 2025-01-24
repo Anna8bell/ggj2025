@@ -8,6 +8,7 @@ public class UiController : MonoBehaviour
     public GameObject gameplay;
     public TMP_Text coinsText;
     public TMP_Text keysText;
+    public TMP_Text enemiesText;
 
     public Manager manager;
     
@@ -35,15 +36,21 @@ public class UiController : MonoBehaviour
         gameplay.SetActive(true);
         SetCoinsText(manager.coins);
         SetKeysText(manager.keys);
+        SetEnemiesText(manager.enemies);
     }
 
     public void SetCoinsText(int coins)
     {
-        coinsText.text = coins + "";
+        coinsText.text = "Coins: " + coins;
     }
 
     public void SetKeysText(int keys)
     {
-        keysText.text = keys + "";
+        keysText.text = "Keys: " + keys;
+    }
+
+    public void SetEnemiesText(int enemies)
+    {
+        enemiesText.text = "Enemies Left: " + enemies;
     }
 }

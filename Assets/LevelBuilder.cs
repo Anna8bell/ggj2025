@@ -34,7 +34,9 @@ public class LevelBuilder : MonoBehaviour
 
         level.room1.mainSlot.itemSlot.item = GenerateRandomItem(level.room1.mainSlot.transform.position);
         level.room2.mainSlot.itemSlot.item = GenerateRandomItem(level.room2.mainSlot.transform.position);
-        level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
+
+        //level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
+        level.room3.combatSlot2.character = GenerateRandomChar(level.room3.combatSlot2.transform.position);
 
         return level;
     }
@@ -45,7 +47,7 @@ public class LevelBuilder : MonoBehaviour
         
     }
 
-    private Item GenerateRandomItem(Vector3 position)
+    public Item GenerateRandomItem(Vector3 position)
     {
         int index = random.Next(items.Count);
 

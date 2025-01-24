@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2645265122105778022}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: 0}
+  m_LocalPosition: {x: 2.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85,7 +85,7 @@ Transform:
   m_GameObject: {fileID: 3810695549677985698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0.5, z: 0}
+  m_LocalPosition: {x: -2.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -183,6 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2642882113607110428}
+  - component: {fileID: 5088087471269319962}
   m_Layer: 0
   m_Name: CombatSlot2
   m_TagString: Untagged
@@ -199,12 +200,25 @@ Transform:
   m_GameObject: {fileID: 4107898848142796345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.5, z: 0}
+  m_LocalPosition: {x: 1.75, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6722482306127005811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5088087471269319962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4107898848142796345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f72c82126aa1ee4280ca75dbeb64f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}
 --- !u!1 &4379071809576614338
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,8 +269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSlot: {fileID: 2008829556564641953}
-  combatSlot1: {fileID: 6346810230076842806}
-  combatSlot2: {fileID: 4107898848142796345}
+  combatSlot1: {fileID: 1610612741958852740}
+  combatSlot2: {fileID: 5088087471269319962}
   itemSlot1: {fileID: 5796706746000793207}
   itemSlot2: {fileID: 1948554421876292202}
   itemSlots:
@@ -266,6 +280,8 @@ MonoBehaviour:
   exit: {fileID: 0}
   left: {fileID: 0}
   right: {fileID: 0}
+  leftDoor: {fileID: 0}
+  rightDoor: {fileID: 0}
   itemSelection: {fileID: 0}
   selectedItemSlot: {fileID: 0}
 --- !u!1 &6346810230076842806
@@ -277,6 +293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 128542917682741374}
+  - component: {fileID: 1610612741958852740}
   m_Layer: 0
   m_Name: CombatSlot1
   m_TagString: Untagged
@@ -293,9 +310,22 @@ Transform:
   m_GameObject: {fileID: 6346810230076842806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.5, z: 0}
+  m_LocalPosition: {x: -1.75, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6722482306127005811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610612741958852740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6346810230076842806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f72c82126aa1ee4280ca75dbeb64f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 0}

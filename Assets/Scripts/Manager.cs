@@ -6,22 +6,22 @@ using UnityEngine.InputSystem;
 public class Manager : MonoBehaviour
 {
     public Char hero;
-    private LevelBuilder levelBuilder;
-    private MoveController moveController;
+    public LevelBuilder levelBuilder;
+    public MoveController moveController;
     public UiController uiController;
-    private Constants constants;
+    public Constants constants;
 
     public RoomLevel currentLevel;
     public RoomLevel nextLevel;
 
     public Dragon dragon;
     public GameObject fireWall;
-    public List<Char> enemies = new List<Char>();
 
     public Camera camera;
 
     public int coins = 0;
-    public int keys = 1; // TODO set 0
+    public int keys = 0;
+    public int enemies = 10;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,7 +33,7 @@ public class Manager : MonoBehaviour
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel();
 
-        hero.gameObject.transform.position = currentLevel.room1.mainSlot.transform.position;
+        hero.gameObject.transform.position = currentLevel.room1.combatSlot1.transform.position;
         hero.currentRoom = currentLevel.room1;
         hero.currentRoom.DefaultItemSelection();
 
@@ -52,14 +52,14 @@ public class Manager : MonoBehaviour
         {
             if (hero.CanGoRight())
             {
-                hero.MoveToSideRoom(hero.currentRoom.right);
+                hero.MoveToSideRoom(hero.currentRoom.right, true);
             }
         }
         if (Keyboard.current.aKey.wasPressedThisFrame)
         {
             if (hero.CanGoLeft())
             {
-                hero.MoveToSideRoom(hero.currentRoom.left);
+                hero.MoveToSideRoom(hero.currentRoom.left, false);
             }
         }
         if (Keyboard.current.sKey.wasPressedThisFrame)
@@ -82,10 +82,11 @@ public class Manager : MonoBehaviour
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            var enemy = hero.CanFight(enemies);
+            var enemy = hero.CanFight();
             if (enemy != null)
             {
-                hero.Fight(enemy);
+                hero.Fight(enemy, true);
+                enemy.Fight(enemy, false);
             }
         }
 
@@ -129,6 +130,31 @@ public class Manager : MonoBehaviour
             keys--;
             uiController.SetKeysText(keys);
         }
+
+    }
+
+    public void MinusCoin()
+    {
+        if (coins > 0)
+        {
+            coins--;
+            uiController.SetCoinsText(coins);
+        }
+
+    }
+
+    public void MinusEnemy()
+    {
+        if (enemies == 0)
+        {
+            // TODO you won
+        }
+        else
+        {
+            enemies--;
+            uiController.SetEnemiesText(enemies);
+        }
+
 
     }
 

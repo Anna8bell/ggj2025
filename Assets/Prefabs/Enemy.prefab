@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3414840380081933340}
@@ -50,6 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRoom: {fileID: 0}
   constants: {fileID: 0}
+  armorRenderer: {fileID: 2145067426821274845}
+  shieldRenderer: {fileID: 4796919330357655463}
+  swordRenderer: {fileID: 3000816111989207760}
+  equips: 
 --- !u!1 &4349039306695270280
 GameObject:
   m_ObjectHideFlags: 0
