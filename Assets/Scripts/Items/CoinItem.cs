@@ -21,5 +21,4 @@ public class CoinItem : MonoBehaviour, Item
         manager.RemoveCollectedItem();
         Destroy(this.gameObject);
     }
-
 }

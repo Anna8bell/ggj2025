@@ -68,7 +68,6 @@ public class Char : MonoBehaviour
 
     public bool CanGoLeft()
     {
-        // return currentRoom.left != null;
         if (currentRoom.left == null) return false;
 
         var door = currentRoom.leftDoor;

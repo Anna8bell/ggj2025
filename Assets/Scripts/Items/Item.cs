@@ -5,7 +5,5 @@ public interface Item
 {
 
     public void DoAction(Char character, Manager manager);
-   
-
   
 }

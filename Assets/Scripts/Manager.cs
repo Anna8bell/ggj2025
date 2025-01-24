@@ -23,11 +23,6 @@ public class Manager : MonoBehaviour
     public int coins = 0;
     public int keys = 1; // TODO set 0
 
-    public CoinItem coinItem1;
-    public CoinItem coinItem2;
-    public CoinItem coinItem3;
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,12 +32,6 @@ public class Manager : MonoBehaviour
         constants = GetComponent<Constants>();
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel();
-
-
-
-        currentLevel.room1.itemSlots[0].itemSlot.item = coinItem1;
-        currentLevel.room1.itemSlots[1].itemSlot.item = coinItem2;
-        currentLevel.room1.itemSlots[2].itemSlot.item = coinItem3;
 
         hero.gameObject.transform.position = currentLevel.room1.mainSlot.transform.position;
         hero.currentRoom = currentLevel.room1;
