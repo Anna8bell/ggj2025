@@ -16,4 +16,16 @@ public class UiController : MonoBehaviour
     {
         
     }
+
+    public void ShowMenu()
+    {
+        menu.SetActive(true);
+        gameplay.SetActive(false);
+    }
+
+    public void ShowGameplay()
+    {
+        menu.SetActive(false);
+        gameplay.SetActive(true);
+    }
 }

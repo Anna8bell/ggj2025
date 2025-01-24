@@ -6,6 +6,8 @@ public class Manager : MonoBehaviour
 {
     public Char hero;
     private LevelBuilder levelBuilder;
+    private MoveController moveController;
+
     public RoomLevel currentLevel;
     public RoomLevel nextLevel;
 
@@ -20,6 +22,7 @@ public class Manager : MonoBehaviour
     void Start()
     {
         levelBuilder = GetComponent<LevelBuilder>();
+        moveController = GetComponent<MoveController>();
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel();
 
@@ -32,6 +35,9 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!moveController.CanDoNextMove()) 
+            return;
+
         if (Keyboard.current.dKey.wasPressedThisFrame)
         {
             if (hero.CanGoRight())
