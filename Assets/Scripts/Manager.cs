@@ -8,6 +8,7 @@ public class Manager : MonoBehaviour
     public Char hero;
     private LevelBuilder levelBuilder;
     private MoveController moveController;
+    public UiController uiController;
     private Constants constants;
 
     public RoomLevel currentLevel;
@@ -19,20 +20,36 @@ public class Manager : MonoBehaviour
 
     public Camera camera;
 
-    
+    public int coins = 0;
+
+    public CoinItem coinItem1;
+    public CoinItem coinItem2;
+    public CoinItem coinItem3;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         levelBuilder = GetComponent<LevelBuilder>();
         moveController = GetComponent<MoveController>();
+        uiController = GetComponent<UiController>();
         constants = GetComponent<Constants>();
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel();
 
+
+
+        currentLevel.room1.itemSlots[0].itemSlot.item = coinItem1;
+        currentLevel.room1.itemSlots[1].itemSlot.item = coinItem2;
+        currentLevel.room1.itemSlots[2].itemSlot.item = coinItem3;
+
         hero.gameObject.transform.position = currentLevel.room1.mainSlot.transform.position;
         hero.currentRoom = currentLevel.room1;
+        hero.currentRoom.DefaultItemSelection();
 
         dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
+
+        uiController.ShowGameplay();
     }
 
     // Update is called once per frame
@@ -81,6 +98,24 @@ public class Manager : MonoBehaviour
                 hero.Fight(enemy);
             }
         }
+
+        if (Keyboard.current.downArrowKey.wasPressedThisFrame)
+        {
+            var selectedSlot = hero.currentRoom.selectedItemSlot;
+            
+            if (selectedSlot != null && selectedSlot.item != null)
+            {
+                selectedSlot.item.DoAction(hero, this);
+            }
+        }
+        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+        {
+            hero.currentRoom.SelectLeftItem();
+        }
+        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        {
+            hero.currentRoom.SelectRightItem();
+        }
     }
 
     private void SwitchLevel()
@@ -89,6 +124,12 @@ public class Manager : MonoBehaviour
         nextLevel = levelBuilder.GenerateLevel();
 
         StartCoroutine(MoveCameraCoroutine(new Vector3(camera.transform.position.x, currentLevel.transform.position.y - 6, camera.transform.position.z)));
+    }
+
+    public void RemoveCollectedItem()
+    {
+        hero.currentRoom.selectedItemSlot.item = null;
+        hero.currentRoom.DefaultItemSelection();
     }
 
     private IEnumerator MoveCameraCoroutine(Vector3 position)

@@ -1,9 +1,12 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiController : MonoBehaviour
 {
     public GameObject menu;
     public GameObject gameplay;
+    public TMP_Text coinsText;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,5 +30,10 @@ public class UiController : MonoBehaviour
     {
         menu.SetActive(false);
         gameplay.SetActive(true);
+    }
+
+    public void SetCoinsText(int coins)
+    {
+        coinsText.text = coins + "";
     }
 }

@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3259885907106511408}
+  - component: {fileID: 1685858556217447052}
+  - component: {fileID: 1948554421876292202}
   m_Layer: 0
   m_Name: ItemSlot2
   m_TagString: Untagged
@@ -31,6 +33,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6722482306127005811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1685858556217447052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2645265122105778022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26db13b7b43f05e4aabb253933edde8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1948554421876292202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2645265122105778022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9925f239c05e67d45b8f748cb21c920b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlot: {fileID: 1685858556217447052}
 --- !u!1 &3810695549677985698
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,6 +67,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6228201809052844210}
+  - component: {fileID: 5308968034504609621}
+  - component: {fileID: 5796706746000793207}
   m_Layer: 0
   m_Name: ItemSlot1
   m_TagString: Untagged
@@ -62,6 +91,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6722482306127005811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5308968034504609621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3810695549677985698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26db13b7b43f05e4aabb253933edde8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5796706746000793207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3810695549677985698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9925f239c05e67d45b8f748cb21c920b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlot: {fileID: 5308968034504609621}
 --- !u!1 &3948008448031522174
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,6 +125,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3370205952851544436}
+  - component: {fileID: 1627675404740063676}
+  - component: {fileID: 2008829556564641953}
   m_Layer: 0
   m_Name: MainSlot
   m_TagString: Untagged
@@ -93,6 +149,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6722482306127005811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1627675404740063676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3948008448031522174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26db13b7b43f05e4aabb253933edde8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2008829556564641953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3948008448031522174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9925f239c05e67d45b8f748cb21c920b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSlot: {fileID: 1627675404740063676}
 --- !u!1 &4107898848142796345
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,14 +254,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67682e3b6fd67484d88c7359432c964f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainSlot: {fileID: 3948008448031522174}
+  mainSlot: {fileID: 2008829556564641953}
   combatSlot1: {fileID: 6346810230076842806}
   combatSlot2: {fileID: 4107898848142796345}
-  itemSlot1: {fileID: 3810695549677985698}
-  itemSlot2: {fileID: 2645265122105778022}
+  itemSlot1: {fileID: 5796706746000793207}
+  itemSlot2: {fileID: 1948554421876292202}
+  itemSlots:
+  - {fileID: 5796706746000793207}
+  - {fileID: 2008829556564641953}
+  - {fileID: 1948554421876292202}
   exit: {fileID: 0}
   left: {fileID: 0}
   right: {fileID: 0}
+  itemSelection: {fileID: 0}
+  selectedItemSlot: {fileID: 0}
 --- !u!1 &6346810230076842806
 GameObject:
   m_ObjectHideFlags: 0

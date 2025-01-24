@@ -86,6 +86,7 @@ public class Char : MonoBehaviour
             yield return null;
         }
 
+        currentRoom.DefaultItemSelection();
         moveController.tasks.Remove(gameObject);
        // print("MoveCoroutine stopped");
 
@@ -115,6 +116,7 @@ public class Char : MonoBehaviour
             yield return null;
         }
 
+        currentRoom.DefaultItemSelection();
         moveController.tasks.Remove(gameObject);
         //print("MoveDownCoroutine stopped");
 
