@@ -4351,6 +4351,7 @@ MonoBehaviour:
   - {fileID: 6063888776619036552, guid: 5d4bf24964e0f564d94e84938e6ae832, type: 3}
   - {fileID: 6063888776619036552, guid: 5d4bf24964e0f564d94e84938e6ae832, type: 3}
   - {fileID: 2538392523066601370, guid: ebb1b3a888ee42144ba1e63660448231, type: 3}
+  chars: []
 --- !u!114 &1950809311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4421,7 +4422,7 @@ MonoBehaviour:
   gameplay: {fileID: 1058117411}
   coinsText: {fileID: 88935194}
   keysText: {fileID: 955297288}
-  manager: {fileID: 0}
+  manager: {fileID: 1950809308}
 --- !u!1 &1967202543
 GameObject:
   m_ObjectHideFlags: 0

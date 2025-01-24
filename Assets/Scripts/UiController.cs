@@ -14,7 +14,7 @@ public class UiController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        manager = GetComponent<Manager>();
+        
     }
 
     // Update is called once per frame
