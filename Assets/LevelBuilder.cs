@@ -34,11 +34,34 @@ public class LevelBuilder : MonoBehaviour
 
         if (fillRooms)
         {
-            level.room1.mainSlot.itemSlot.item = GenerateRandomItem(level.room1.mainSlot.transform.position);
-            level.room2.mainSlot.itemSlot.item = GenerateRandomItem(level.room2.mainSlot.transform.position);
+            for(int i = 0; i<3; i++)
+            {
+                Room room = null;
+                if (i == 0)
+                {
+                    room = level.room1;
+                }
+                if (i == 1)
+                {
+                    room = level.room2;
+                }
+                if (i == 2)
+                {
+                    room = level.room3;
+                }
 
-            //level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
-            level.room3.combatSlot2.character = GenerateRandomChar(level.room3.combatSlot2.transform.position);
+                int roomHasItem = random.Next(5);
+                if (roomHasItem == 0 || roomHasItem ==1) continue;
+                
+                if (roomHasItem == 2 || roomHasItem == 3)
+                {
+                    room.mainSlot.itemSlot.item = GenerateRandomItem(room.mainSlot.transform.position);
+                }
+                if (roomHasItem == 4)
+                {
+                    room.combatSlot2.character = GenerateRandomChar(room.combatSlot2.transform.position);
+                }
+            }
 
             int hasDoorOnFloor = random.Next(2);
             if (hasDoorOnFloor == 1)
@@ -52,7 +75,6 @@ public class LevelBuilder : MonoBehaviour
                 {
                     level.door2.Close();
                 }
-
             }
 
             
