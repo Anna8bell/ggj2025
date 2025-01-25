@@ -4346,7 +4346,7 @@ MonoBehaviour:
   fireWall: {fileID: 1967202543}
   camera: {fileID: 519420031}
   coins: 0
-  keys: 1
+  keys: 0
   enemies: 10
 --- !u!4 &1950809309
 Transform:

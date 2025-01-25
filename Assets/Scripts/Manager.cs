@@ -31,7 +31,7 @@ public class Manager : MonoBehaviour
         uiController = GetComponent<UiController>();
         constants = GetComponent<Constants>();
         currentLevel = levelBuilder.GenerateStartLevel();
-        nextLevel = levelBuilder.GenerateLevel();
+        nextLevel = levelBuilder.GenerateLevel(true);
 
         hero.gameObject.transform.position = currentLevel.room1.combatSlot1.transform.position;
         hero.currentRoom = currentLevel.room1;
@@ -112,7 +112,7 @@ public class Manager : MonoBehaviour
     private void SwitchLevel()
     {
         currentLevel = nextLevel;
-        nextLevel = levelBuilder.GenerateLevel();
+        nextLevel = levelBuilder.GenerateLevel(true);
 
         StartCoroutine(MoveCameraCoroutine(new Vector3(camera.transform.position.x, currentLevel.transform.position.y - 6, camera.transform.position.z)));
     }
