@@ -2,26 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
     public Char hero;
-    private LevelBuilder levelBuilder;
-    private MoveController moveController;
+    public LevelBuilder levelBuilder;
+    public MoveController moveController;
     public UiController uiController;
-    private Constants constants;
+    public Constants constants;
 
     public RoomLevel currentLevel;
     public RoomLevel nextLevel;
 
     public Dragon dragon;
-    public GameObject fireWall;
-    public List<Char> enemies = new List<Char>();
+    public FireWall fireWall;
 
     public Camera camera;
 
+    public Mode mode = Mode.Menu;
+
     public int coins = 0;
-    public int keys = 1; // TODO set 0
+    public int keys = 0;
+    public int enemies = 10;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,20 +34,40 @@ public class Manager : MonoBehaviour
         uiController = GetComponent<UiController>();
         constants = GetComponent<Constants>();
         currentLevel = levelBuilder.GenerateStartLevel();
-        nextLevel = levelBuilder.GenerateLevel();
+        nextLevel = levelBuilder.GenerateLevel(true);
 
-        hero.gameObject.transform.position = currentLevel.room1.mainSlot.transform.position;
+        hero.gameObject.transform.position = currentLevel.room1.combatSlot1.transform.position;
         hero.currentRoom = currentLevel.room1;
         hero.currentRoom.DefaultItemSelection();
 
-        dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
+       // dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
 
-        uiController.ShowGameplay();
+        uiController.ShowMenu();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (mode == Mode.GameOver) 
+        {
+            if (Keyboard.current.anyKey.wasPressedThisFrame)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            return;
+        }
+
+        if (mode == Mode.Menu)
+        {
+            if (Keyboard.current.anyKey.wasPressedThisFrame)
+            {
+                mode = Mode.Cutscene;
+                StartCoroutine(StartCutsceneCoroutine());
+                
+            }
+            return;
+        }
+
         if (!moveController.CanDoNextMove()) 
             return;
 
@@ -52,14 +75,16 @@ public class Manager : MonoBehaviour
         {
             if (hero.CanGoRight())
             {
-                hero.MoveToSideRoom(hero.currentRoom.right);
+                hero.MoveToSideRoom(hero.currentRoom.right, true);
+                fireWall.StepDown();
             }
         }
         if (Keyboard.current.aKey.wasPressedThisFrame)
         {
             if (hero.CanGoLeft())
             {
-                hero.MoveToSideRoom(hero.currentRoom.left);
+                hero.MoveToSideRoom(hero.currentRoom.left, false);
+                fireWall.StepDown();
             }
         }
         if (Keyboard.current.sKey.wasPressedThisFrame)
@@ -76,16 +101,19 @@ public class Manager : MonoBehaviour
             {
                 hero.MoveDown(nextLevel.room3);
             }
+            fireWall.StepDown();
 
             SwitchLevel();
         }
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            var enemy = hero.CanFight(enemies);
+            var enemy = hero.CanFight();
             if (enemy != null)
             {
-                hero.Fight(enemy);
+                hero.Fight(enemy, true);
+                enemy.Fight(enemy, false);
+                fireWall.StepDown();
             }
         }
 
@@ -96,6 +124,7 @@ public class Manager : MonoBehaviour
             if (selectedSlot != null && selectedSlot.item != null)
             {
                 selectedSlot.item.DoAction(hero, this);
+                fireWall.StepDown();
             }
         }
         if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
@@ -106,12 +135,24 @@ public class Manager : MonoBehaviour
         {
             hero.currentRoom.SelectRightItem();
         }
+
+        if (hero.transform.position.y + 2.6f > fireWall.transform.position.y)
+        {
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+        mode = Mode.GameOver;
+        hero.HideDeadHero();
+        uiController.ShowGameOver();
     }
 
     private void SwitchLevel()
     {
         currentLevel = nextLevel;
-        nextLevel = levelBuilder.GenerateLevel();
+        nextLevel = levelBuilder.GenerateLevel(true);
 
         StartCoroutine(MoveCameraCoroutine(new Vector3(camera.transform.position.x, currentLevel.transform.position.y - 6, camera.transform.position.z)));
     }
@@ -130,6 +171,41 @@ public class Manager : MonoBehaviour
             uiController.SetKeysText(keys);
         }
 
+    }
+
+    public void MinusCoin()
+    {
+        if (coins > 0)
+        {
+            coins--;
+            uiController.SetCoinsText(coins);
+        }
+
+    }
+
+    public void MinusEnemy()
+    {
+        if (enemies == 0)
+        {
+            // TODO you won
+        }
+        else
+        {
+            enemies--;
+            uiController.SetEnemiesText(enemies);
+        }
+
+
+    }
+
+    private IEnumerator StartCutsceneCoroutine()
+    {
+        dragon.ThrowFire();
+        fireWall.StartFire();
+
+        yield return new WaitForSeconds(2);
+
+        uiController.ShowGameplay();
     }
 
     private IEnumerator MoveCameraCoroutine(Vector3 position)
@@ -161,6 +237,14 @@ public class Manager : MonoBehaviour
         
        // print("MoveCameraCoroutine stopped");
 
+    }
+
+    public enum Mode
+    {
+        Menu,
+        Gameplay,
+        Cutscene,
+        GameOver
     }
 
 }

@@ -22,19 +22,26 @@ public class LevelBuilder : MonoBehaviour
 
     public RoomLevel GenerateStartLevel()
     {
-        var level = GenerateLevel();
+        var level = GenerateLevel(false);
         level.HideWalls();
         return level;
     }
 
-    public RoomLevel GenerateLevel()
+    public RoomLevel GenerateLevel(bool fillRooms)
     {
         var level = Instantiate<RoomLevel>(levelPrefab, new Vector3(0, levelOffset, 0), Quaternion.Euler(0, 0, 0));
         levelOffset -= levelStep;
 
-        level.room1.mainSlot.itemSlot.item = GenerateRandomItem(level.room1.mainSlot.transform.position);
-        level.room2.mainSlot.itemSlot.item = GenerateRandomItem(level.room2.mainSlot.transform.position);
-        level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
+        if (fillRooms)
+        {
+            level.room1.mainSlot.itemSlot.item = GenerateRandomItem(level.room1.mainSlot.transform.position);
+            level.room2.mainSlot.itemSlot.item = GenerateRandomItem(level.room2.mainSlot.transform.position);
+
+            //level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
+            level.room3.combatSlot2.character = GenerateRandomChar(level.room3.combatSlot2.transform.position);
+
+            level.door2.Close();
+        }
 
         return level;
     }
@@ -45,7 +52,7 @@ public class LevelBuilder : MonoBehaviour
         
     }
 
-    private Item GenerateRandomItem(Vector3 position)
+    public Item GenerateRandomItem(Vector3 position)
     {
         int index = random.Next(items.Count);
 

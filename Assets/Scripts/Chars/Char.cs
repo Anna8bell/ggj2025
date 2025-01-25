@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Char : MonoBehaviour
@@ -8,9 +7,18 @@ public class Char : MonoBehaviour
     public Room currentRoom;
     public Constants constants;
 
+    public SpriteRenderer armorRenderer;
+    public SpriteRenderer shieldRenderer;
+    public SpriteRenderer swordRenderer;
+    public SpriteRenderer bodyRenderer;
+    public SpriteRenderer hairRenderer;
+
+    public List<Equip> equips = new List<Equip>(); 
+
     private MoveController moveController;
     private Manager manager;
-    
+    private System.Random random = new System.Random();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,6 +26,15 @@ public class Char : MonoBehaviour
         moveController = managerObject.GetComponent<MoveController>();
         constants = managerObject.GetComponent<Constants>();
         manager = managerObject.GetComponent<Manager>();
+
+        if (shieldRenderer != null) 
+        {
+            shieldRenderer.enabled = false;
+        }
+        if (armorRenderer != null)
+        {
+            armorRenderer.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -26,9 +43,9 @@ public class Char : MonoBehaviour
         
     }
 
-    public void MoveToSideRoom(Room room)
+    public void MoveToSideRoom(Room room, bool toRight)
     {
-        StartCoroutine(MoveCoroutine(room));
+        StartCoroutine(MoveCoroutine(room, toRight));
        
     }
 
@@ -37,9 +54,103 @@ public class Char : MonoBehaviour
         StartCoroutine(MoveDownCoroutine(room));
     }
 
-    public void Fight(Char enemy)
+    public void HideDeadHero()
     {
+        bodyRenderer.enabled = false;
+        armorRenderer.enabled = false;
+        swordRenderer.enabled = false;
+        shieldRenderer.enabled=false;
+        hairRenderer.enabled=false;
 
+    }
+
+    public void OnHit(bool isHero)
+    {
+        if (equips.Count == 0)
+        {
+            //TODO dead
+            if (!isHero)
+            {
+                manager.hero.currentRoom.combatSlot2.character = null;
+                Destroy(gameObject);
+                manager.MinusEnemy();
+            } else
+            {
+                manager.GameOver();
+               
+            }
+
+            return;
+        }
+
+        var dropItemIndex = random.Next(equips.Count);
+
+        var dropEquip = equips[dropItemIndex];
+        equips.Remove(dropEquip);
+
+        switch (dropEquip)
+        {
+            case Equip.Armor:
+                StartCoroutine(DropEquipCoroutine(armorRenderer, isHero));
+                break;
+            case Equip.Shield:
+                StartCoroutine(DropEquipCoroutine(shieldRenderer, isHero));
+                break;
+        }
+        //TODO spawn lost item
+    }
+
+    private IEnumerator DropEquipCoroutine(SpriteRenderer renderer, bool isHero)
+    {
+        // print("MoveCoroutine started");
+
+        float time = 0;
+        var prevPosition = renderer.transform.position;
+        var target = renderer.transform.position;
+        if (isHero)
+        {
+            target -= new Vector3(2f, 0, 0);
+        }
+        else
+        {
+            target += new Vector3(2f, 0, 0);
+        }
+
+        while (target != renderer.transform.position)
+        {
+            float delta = constants.moveCurve.Evaluate(time / constants.dropEquipTime);
+            renderer.transform.position = Vector3.MoveTowards(transform.position, target, delta * constants.dropEquipSpeed);
+
+            if ((renderer.transform.position - target).magnitude <= 0.1f)
+            {
+                renderer.transform.position = target;
+            }
+
+            time = Mathf.Min(constants.dropEquipTime, time + Time.deltaTime);
+
+            yield return null;
+        }
+
+        renderer.enabled = false;
+        renderer.transform.position = prevPosition;
+
+    }
+
+    public void OnEquipFound(Equip equip)
+    {
+        switch (equip)
+        {
+            case Equip.Armor:
+                armorRenderer.transform.position = transform.position;
+                armorRenderer.enabled = true;
+                break;
+            case Equip.Shield:
+                shieldRenderer.transform.position = transform.position;
+                shieldRenderer.enabled = true;
+                break;
+        }
+
+        equips.Add(equip);
     }
 
     public bool CanGoRight()
@@ -60,7 +171,7 @@ public class Char : MonoBehaviour
             if (manager.keys > 0)
             {
                 manager.MinusKey();
-                door.isOpened = true;
+                door.Open();
             }
             return false;
         }
@@ -84,31 +195,95 @@ public class Char : MonoBehaviour
             if (manager.keys > 0)
             {
                 manager.MinusKey();
-                door.isOpened = true;
+                door.Open();
             }
             return false;
         }
     }
 
-    public Char CanFight(List<Char> enemies)
+    public Char CanFight()
     {
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            if (enemies[i].currentRoom == currentRoom)
-            {
-                return enemies[i];
-            }
-        }
-        return null;
+        return currentRoom.combatSlot2.character; 
+        
     }
 
-    private IEnumerator MoveCoroutine(Room room)
+    public void Fight(Char enemy, bool isHero)
+    {
+        StartCoroutine(FightCoroutine(enemy,isHero));
+    }
+
+    private IEnumerator FightCoroutine(Char enemy, bool isHero)
+    {
+        // print("MoveCoroutine started");
+
+        float time = 0;
+        var prevPosition = transform.position;
+        var targetHero = transform.position;
+        if (isHero)
+        {
+            targetHero += new Vector3(0.5f, 0, 0);
+            moveController.tasks.AddLast(gameObject);
+        }
+        else
+        {
+            targetHero -= new Vector3(0.5f, 0, 0);
+        }
+        
+
+        while (targetHero != transform.position)
+        {
+            float delta = constants.moveCurve.Evaluate(time / constants.moveTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetHero, delta * constants.attackSpeed);
+
+            if ((transform.position - targetHero).magnitude <= 0.1f)
+            {
+                transform.position = targetHero;
+            }
+
+            time = Mathf.Min(constants.moveTime, time + Time.deltaTime);
+
+            yield return null;
+        }
+
+        OnHit(isHero);
+
+        while (prevPosition != transform.position)
+        {
+            float delta = constants.moveCurve.Evaluate(time / constants.moveTime);
+            transform.position = Vector3.MoveTowards(transform.position, prevPosition, delta * constants.attackSpeed);
+
+            if ((transform.position - prevPosition).magnitude <= 0.1f)
+            {
+                transform.position = prevPosition;
+            }
+
+            time = Mathf.Min(constants.moveTime, time + Time.deltaTime);
+
+            yield return null;
+        }
+
+        if (isHero)
+        {
+            moveController.tasks.Remove(gameObject);
+        }
+        // print("MoveCoroutine stopped");
+
+    }
+
+    private IEnumerator MoveCoroutine(Room room, bool toRight)
     {
        // print("MoveCoroutine started");
 
         float time = 0;
-        var target = room.mainSlot.transform.position;
+        var target = room.combatSlot1.transform.position;
         moveController.tasks.AddLast(gameObject);
+
+        if (toRight) {
+            transform.localScale = new Vector3(1, 1, 1);
+        } else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
 
         while (currentRoom != room)
         {
@@ -126,6 +301,7 @@ public class Char : MonoBehaviour
             yield return null;
         }
 
+        transform.localScale = new Vector3(1, 1, 1);
         currentRoom.DefaultItemSelection();
         moveController.tasks.Remove(gameObject);
        // print("MoveCoroutine stopped");
@@ -137,7 +313,7 @@ public class Char : MonoBehaviour
         //print("MoveDownCoroutine started");
 
         float time = 0;
-        var target = room.mainSlot.transform.position;
+        var target = room.combatSlot1.transform.position;
         moveController.tasks.AddLast(gameObject);
 
         while (currentRoom != room)
@@ -160,6 +336,11 @@ public class Char : MonoBehaviour
         moveController.tasks.Remove(gameObject);
         //print("MoveDownCoroutine stopped");
 
+    }
+
+    public enum Equip
+    {
+        Armor, Shield
     }
 
 }

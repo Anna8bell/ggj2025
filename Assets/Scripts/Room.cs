@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 public class Room : MonoBehaviour
 {
     public Slots mainSlot;
-    public Slots combatSlot1;
-    public Slots combatSlot2;
+    public CharSlot combatSlot1;
+    public CharSlot combatSlot2;
     public Slots itemSlot1;
     public Slots itemSlot2;
     public List<Slots> itemSlots;
