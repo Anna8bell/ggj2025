@@ -38,6 +38,8 @@ public class LevelBuilder : MonoBehaviour
         //level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
         level.room3.combatSlot2.character = GenerateRandomChar(level.room3.combatSlot2.transform.position);
 
+        level.door2.Close();
+
         return level;
     }
 

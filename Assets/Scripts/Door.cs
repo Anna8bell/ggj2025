@@ -3,6 +3,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     public bool isOpened = true;
+    public Sprite openedSprite;
+    public Sprite closedSprite;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,13 +18,18 @@ public class Door : MonoBehaviour
         
     }
 
+    public void Close()
+    {
+        isOpened = false;
+        GetComponent<SpriteRenderer>().sprite = closedSprite;
+    }
+
     public void Open()
     {
         if (!isOpened)
         {
             isOpened = true;
-            //TODO -key
-            //Change sprite
+            GetComponent<SpriteRenderer>().sprite = openedSprite;
         }
     }
 }

@@ -154,7 +154,7 @@ public class Char : MonoBehaviour
             if (manager.keys > 0)
             {
                 manager.MinusKey();
-                door.isOpened = true;
+                door.Open();
             }
             return false;
         }
@@ -178,7 +178,7 @@ public class Char : MonoBehaviour
             if (manager.keys > 0)
             {
                 manager.MinusKey();
-                door.isOpened = true;
+                door.Open();
             }
             return false;
         }
