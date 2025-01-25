@@ -12,6 +12,7 @@ public class Manager : MonoBehaviour
     public UiController uiController;
     public Constants constants;
     public MusicController musicController;
+    public SoundController soundController;
 
     public RoomLevel currentLevel;
     public RoomLevel nextLevel;
@@ -35,6 +36,7 @@ public class Manager : MonoBehaviour
         uiController = GetComponent<UiController>();
         constants = GetComponent<Constants>();
         musicController = GetComponent<MusicController>();
+        soundController = GetComponent<SoundController>();
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel(true);
 
@@ -79,6 +81,7 @@ public class Manager : MonoBehaviour
             {
                 hero.MoveToSideRoom(hero.currentRoom.right, true);
                 fireWall.StepDown();
+                soundController.PlayJumpSound();
             }
         }
         if (Keyboard.current.aKey.wasPressedThisFrame)
@@ -87,6 +90,7 @@ public class Manager : MonoBehaviour
             {
                 hero.MoveToSideRoom(hero.currentRoom.left, false);
                 fireWall.StepDown();
+                soundController.PlayJumpSound();
             }
         }
         if (Keyboard.current.sKey.wasPressedThisFrame)
@@ -146,6 +150,7 @@ public class Manager : MonoBehaviour
 
     public void GameOver()
     {
+        soundController.PlayDefeatSound();
         mode = Mode.GameOver;
         hero.HideDeadHero();
         uiController.ShowGameOver();
@@ -202,6 +207,7 @@ public class Manager : MonoBehaviour
 
     private IEnumerator StartCutsceneCoroutine()
     {
+        soundController.PlayDragonSound();
         dragon.ThrowFire();
         fireWall.StartFire();
         musicController.PlayGameplayMusic();
