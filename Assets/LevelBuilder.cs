@@ -59,7 +59,19 @@ public class LevelBuilder : MonoBehaviour
                 }
                 if (roomHasItem == 4)
                 {
-                    room.combatSlot2.character = GenerateRandomChar(room.combatSlot2.transform.position);
+                    var character = GenerateRandomChar(room.combatSlot2.transform.position);
+                    room.combatSlot2.character = character;
+
+                    int hasEquip = random.Next(5);
+
+                    if (hasEquip == 1)
+                    {
+                        character.OnEquipFound(Char.Equip.Shield);
+                    }
+                    if (hasEquip == 2)
+                    {
+                        character.OnEquipFound(Char.Equip.Armor);
+                    }
                 }
             }
 

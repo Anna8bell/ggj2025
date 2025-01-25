@@ -27,11 +27,11 @@ public class Char : MonoBehaviour
         constants = managerObject.GetComponent<Constants>();
         manager = managerObject.GetComponent<Manager>();
 
-        if (shieldRenderer != null) 
+        if (shieldRenderer != null && !equips.Contains(Equip.Shield)) 
         {
             shieldRenderer.enabled = false;
         }
-        if (armorRenderer != null)
+        if (armorRenderer != null && !equips.Contains(Equip.Armor))
         {
             armorRenderer.enabled = false;
         }
