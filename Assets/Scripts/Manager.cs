@@ -19,6 +19,8 @@ public class Manager : MonoBehaviour
 
     public Camera camera;
 
+    public Mode mode = Mode.Menu;
+
     public int coins = 0;
     public int keys = 0;
     public int enemies = 10;
@@ -39,12 +41,23 @@ public class Manager : MonoBehaviour
 
         dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
 
-        uiController.ShowGameplay();
+        uiController.ShowMenu();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (mode == Mode.Menu)
+        {
+            if (Keyboard.current.anyKey.wasPressedThisFrame)
+            {
+                mode = Mode.Cutscene;
+                StartCoroutine(StartCutsceneCoroutine());
+                
+            }
+            return;
+        }
+
         if (!moveController.CanDoNextMove()) 
             return;
 
@@ -158,6 +171,15 @@ public class Manager : MonoBehaviour
 
     }
 
+    private IEnumerator StartCutsceneCoroutine()
+    {
+        dragon.ThrowFire();
+
+        yield return new WaitForSeconds(2);
+
+        uiController.ShowGameplay();
+    }
+
     private IEnumerator MoveCameraCoroutine(Vector3 position)
     {
         //print("MoveCameraCoroutine started");
@@ -187,6 +209,13 @@ public class Manager : MonoBehaviour
         
        // print("MoveCameraCoroutine stopped");
 
+    }
+
+    public enum Mode
+    {
+        Menu,
+        Gameplay,
+        Cutscene
     }
 
 }
