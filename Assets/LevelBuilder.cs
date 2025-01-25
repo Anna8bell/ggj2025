@@ -40,7 +40,22 @@ public class LevelBuilder : MonoBehaviour
             //level.room3.mainSlot.itemSlot.item = GenerateRandomItem(level.room3.mainSlot.transform.position);
             level.room3.combatSlot2.character = GenerateRandomChar(level.room3.combatSlot2.transform.position);
 
-            level.door2.Close();
+            int hasDoorOnFloor = random.Next(2);
+            if (hasDoorOnFloor == 1)
+            {
+                int doorBetweenRoom = random.Next(2);
+                if (doorBetweenRoom == 0)
+                {
+                    level.door1.Close();
+                }
+                if (doorBetweenRoom == 1)
+                {
+                    level.door2.Close();
+                }
+
+            }
+
+            
         }
 
         return level;
