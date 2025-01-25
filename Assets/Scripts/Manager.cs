@@ -11,6 +11,7 @@ public class Manager : MonoBehaviour
     public MoveController moveController;
     public UiController uiController;
     public Constants constants;
+    public MusicController musicController;
 
     public RoomLevel currentLevel;
     public RoomLevel nextLevel;
@@ -33,6 +34,7 @@ public class Manager : MonoBehaviour
         moveController = GetComponent<MoveController>();
         uiController = GetComponent<UiController>();
         constants = GetComponent<Constants>();
+        musicController = GetComponent<MusicController>();
         currentLevel = levelBuilder.GenerateStartLevel();
         nextLevel = levelBuilder.GenerateLevel(true);
 
@@ -202,10 +204,13 @@ public class Manager : MonoBehaviour
     {
         dragon.ThrowFire();
         fireWall.StartFire();
+        musicController.PlayGameplayMusic();
 
         yield return new WaitForSeconds(2);
 
         uiController.ShowGameplay();
+        mode = Mode.Gameplay;
+        
     }
 
     private IEnumerator MoveCameraCoroutine(Vector3 position)
