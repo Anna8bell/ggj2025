@@ -16,6 +16,9 @@ public class SellerItem : MonoBehaviour, Item
         if (manager.coins > 0)
         {
             manager.MinusCoin();
+            manager.soundController.PlayWelcomeSound();
+            manager.soundController.PlayCoinSound();
+            
 
             if (character.currentRoom.itemSlot1.itemSlot.item == null)
             {

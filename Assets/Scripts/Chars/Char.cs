@@ -72,8 +72,9 @@ public class Char : MonoBehaviour
             if (!isHero)
             {
                 manager.hero.currentRoom.combatSlot2.character = null;
-                Destroy(gameObject);
                 manager.MinusEnemy();
+                manager.soundController.PlayBonesSound();
+                Destroy(gameObject);
             } else
             {
                 manager.GameOver();
@@ -246,6 +247,7 @@ public class Char : MonoBehaviour
         }
 
         OnHit(isHero);
+        manager.soundController.PlaySword1Sound();
 
         while (prevPosition != transform.position)
         {
@@ -335,7 +337,7 @@ public class Char : MonoBehaviour
         currentRoom.DefaultItemSelection();
         moveController.tasks.Remove(gameObject);
         //print("MoveDownCoroutine stopped");
-
+        manager.soundController.PlayJumpSound();
     }
 
     public enum Equip
