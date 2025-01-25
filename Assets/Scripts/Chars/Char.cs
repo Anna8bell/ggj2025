@@ -10,6 +10,8 @@ public class Char : MonoBehaviour
     public SpriteRenderer armorRenderer;
     public SpriteRenderer shieldRenderer;
     public SpriteRenderer swordRenderer;
+    public SpriteRenderer bodyRenderer;
+    public SpriteRenderer hairRenderer;
 
     public List<Equip> equips = new List<Equip>(); 
 
@@ -52,6 +54,16 @@ public class Char : MonoBehaviour
         StartCoroutine(MoveDownCoroutine(room));
     }
 
+    public void HideDeadHero()
+    {
+        bodyRenderer.enabled = false;
+        armorRenderer.enabled = false;
+        swordRenderer.enabled = false;
+        shieldRenderer.enabled=false;
+        hairRenderer.enabled=false;
+
+    }
+
     public void OnHit(bool isHero)
     {
         if (equips.Count == 0)
@@ -62,7 +74,12 @@ public class Char : MonoBehaviour
                 manager.hero.currentRoom.combatSlot2.character = null;
                 Destroy(gameObject);
                 manager.MinusEnemy();
+            } else
+            {
+                manager.GameOver();
+               
             }
+
             return;
         }
 

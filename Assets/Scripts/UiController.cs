@@ -6,6 +6,7 @@ public class UiController : MonoBehaviour
 {
     public GameObject menu;
     public GameObject gameplay;
+    public GameObject gameOver;
     public TMP_Text coinsText;
     public TMP_Text keysText;
     public TMP_Text enemiesText;
@@ -28,15 +29,24 @@ public class UiController : MonoBehaviour
     {
         menu.SetActive(true);
         gameplay.SetActive(false);
+        gameOver.SetActive(false);
     }
 
     public void ShowGameplay()
     {
         menu.SetActive(false);
         gameplay.SetActive(true);
+        gameOver.SetActive(false);
         SetCoinsText(manager.coins);
         SetKeysText(manager.keys);
         SetEnemiesText(manager.enemies);
+    }
+
+    public void ShowGameOver()
+    {
+        menu.SetActive(false);
+        gameplay.SetActive(false);
+        gameOver.SetActive(true);
     }
 
     public void SetCoinsText(int coins)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class Manager : MonoBehaviour
     public RoomLevel nextLevel;
 
     public Dragon dragon;
-    public GameObject fireWall;
+    public FireWall fireWall;
 
     public Camera camera;
 
@@ -39,7 +40,7 @@ public class Manager : MonoBehaviour
         hero.currentRoom = currentLevel.room1;
         hero.currentRoom.DefaultItemSelection();
 
-        dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
+       // dragon.gameObject.transform.position = currentLevel.room3.mainSlot.transform.position;
 
         uiController.ShowMenu();
     }
@@ -47,6 +48,15 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (mode == Mode.GameOver) 
+        {
+            if (Keyboard.current.anyKey.wasPressedThisFrame)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            return;
+        }
+
         if (mode == Mode.Menu)
         {
             if (Keyboard.current.anyKey.wasPressedThisFrame)
@@ -66,6 +76,7 @@ public class Manager : MonoBehaviour
             if (hero.CanGoRight())
             {
                 hero.MoveToSideRoom(hero.currentRoom.right, true);
+                fireWall.StepDown();
             }
         }
         if (Keyboard.current.aKey.wasPressedThisFrame)
@@ -73,6 +84,7 @@ public class Manager : MonoBehaviour
             if (hero.CanGoLeft())
             {
                 hero.MoveToSideRoom(hero.currentRoom.left, false);
+                fireWall.StepDown();
             }
         }
         if (Keyboard.current.sKey.wasPressedThisFrame)
@@ -89,6 +101,7 @@ public class Manager : MonoBehaviour
             {
                 hero.MoveDown(nextLevel.room3);
             }
+            fireWall.StepDown();
 
             SwitchLevel();
         }
@@ -100,6 +113,7 @@ public class Manager : MonoBehaviour
             {
                 hero.Fight(enemy, true);
                 enemy.Fight(enemy, false);
+                fireWall.StepDown();
             }
         }
 
@@ -110,6 +124,7 @@ public class Manager : MonoBehaviour
             if (selectedSlot != null && selectedSlot.item != null)
             {
                 selectedSlot.item.DoAction(hero, this);
+                fireWall.StepDown();
             }
         }
         if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
@@ -120,6 +135,18 @@ public class Manager : MonoBehaviour
         {
             hero.currentRoom.SelectRightItem();
         }
+
+        if (hero.transform.position.y + 2.6f > fireWall.transform.position.y)
+        {
+            GameOver();
+        }
+    }
+
+    public void GameOver()
+    {
+        mode = Mode.GameOver;
+        hero.HideDeadHero();
+        uiController.ShowGameOver();
     }
 
     private void SwitchLevel()
@@ -174,6 +201,7 @@ public class Manager : MonoBehaviour
     private IEnumerator StartCutsceneCoroutine()
     {
         dragon.ThrowFire();
+        fireWall.StartFire();
 
         yield return new WaitForSeconds(2);
 
@@ -215,7 +243,8 @@ public class Manager : MonoBehaviour
     {
         Menu,
         Gameplay,
-        Cutscene
+        Cutscene,
+        GameOver
     }
 
 }
